@@ -1,6 +1,9 @@
 name: "Push Docker image to Registry"
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - users/yogesh/build-image
 permissions: 
     contents: read
 env:
