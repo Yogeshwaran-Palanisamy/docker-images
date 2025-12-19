@@ -8,9 +8,6 @@ permissions:
     contents: read
 env:
   DOCKER_IMAGE: "helm3"
-defaults:
-  run:
-    working-directory: ./docker
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -27,10 +24,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: pwd
+        run: pwd
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./Dockerfile
+          context: ./docker
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE }}:latest
