@@ -10,7 +10,7 @@ env:
   DOCKER_IMAGE: "helm3"
 defaults:
   run:
-    working-directory: docker
+    working-directory: ./docker
 jobs:
   deploy:
     runs-on: ubuntu-latest
