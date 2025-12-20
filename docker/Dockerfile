@@ -8,4 +8,5 @@ RUN apt-get update && \
     tar -C /tmp -xzf /tmp/helm.tar.gz && \
     mv /tmp/linux-amd64/helm /usr/local/bin/helm && \
     chmod +x /usr/local/bin/helm && \
+    ln -s /usr/local/bin/helm /usr/local/bin/helm3 && \
     rm -rf /tmp/helm.tar.gz /tmp/linux-amd64 
