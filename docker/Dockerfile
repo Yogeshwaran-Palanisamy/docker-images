@@ -1,4 +1,4 @@
-FROM node:18-slim
+FROM debian:bullseye-slim
 WORKDIR /app
 LABEL name='helm3'
 
@@ -9,6 +9,4 @@ RUN apt-get update && \
     tar -C /tmp -xzf /tmp/helm.tar.gz && \
     mv /tmp/linux-amd64/helm /usr/local/bin/helm && \
     chmod +x /usr/local/bin/helm && \
-    rm -rf /tmp/helm.tar.gz /tmp/linux-amd64
-
-CMD ["helm"]
+    rm -rf /tmp/helm.tar.gz /tmp/linux-amd64 

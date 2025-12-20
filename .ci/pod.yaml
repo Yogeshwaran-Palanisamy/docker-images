@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod 
+metadata:
+  name: ci-pod
+spec:
+  containers:
+    - name: ci-container
+      image: alpine:latest
+      command: ["/bin/sh", "-c", "apk update && apk add --no-cache docker-cli && sleep 3600"]
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
+  restartPolicy: Never
