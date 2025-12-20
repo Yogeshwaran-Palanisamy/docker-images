@@ -1,5 +1,4 @@
 FROM debian:bullseye-slim
-WORKDIR /app
 LABEL name='helm3'
 
 RUN apt-get update && \
