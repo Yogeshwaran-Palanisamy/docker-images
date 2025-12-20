@@ -1,12 +1,10 @@
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 LABEL name='helm3'
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl ca-certificates tar gzip && \
-    rm -rf /var/lib/apt/lists/* && \
-    curl -fsSL -o /tmp/helm.tar.gz https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz && \
-    tar -C /tmp -xzf /tmp/helm.tar.gz && \
-    mv /tmp/linux-amd64/helm /usr/local/bin/helm && \
-    chmod +x /usr/local/bin/helm && \
-    ln -s /usr/local/bin/helm /usr/local/bin/helm3 && \
-    rm -rf /tmp/helm.tar.gz /tmp/linux-amd64 
+    apt-get install -y --no-install-recommends curl gpg apt-transport-https ca-certificates && \
+    update-ca-certificates && \
+    curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null && \
+    echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | tee /etc/apt/sources.list.d/helm-stable-debian.list && \
+    apt-get update && \
+    apt-get install helm
