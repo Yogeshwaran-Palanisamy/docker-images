@@ -31,4 +31,5 @@ LABEL name='helm3'
 COPY --from=builder /usr/bin/helm /usr/local/bin/helm
 COPY --from=builder /usr/local/bin/kubectl /usr/local/bin/kubectl
 
-RUN pip install --no-cache-dir yq pyyaml requests
+RUN pip install --no-cache-dir yq pyyaml requests && \
+    apk add --no-cache curl
