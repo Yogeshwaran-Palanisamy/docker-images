@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gpg \
     apt-transport-https \
     ca-certificates \
-    pkg-config 
+    pkg-config \
+    gnupg 
 
 # Install Helm
 RUN curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null && \
@@ -17,11 +18,17 @@ RUN curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gp
     apt-get install -y helm \
     && rm -rf /var/lib/apt/lists/*
 
+# Install kubectl
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
+    && chmod +x ./kubectl \
+    && mv ./kubectl /usr/local/bin/kubectl
+
 # Stage 2: Runtime - Minimal image with only runtime dependencies
 FROM python:3.11.14-alpine3.23
 LABEL name='helm3'
 
 # Copy Helm from builder
 COPY --from=builder /usr/bin/helm /usr/local/bin/helm
+COPY --from=builder /usr/local/bin/kubectl /usr/local/bin/kubectl
 
 RUN pip install --no-cache-dir yq pyyaml requests
